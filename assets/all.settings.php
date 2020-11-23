@@ -27,3 +27,16 @@ if (getenv('LAGOON_ENVIRONMENT_TYPE') !== 'production') {
      */
     $settings['skip_permissions_hardening'] = TRUE;
 }
+
+### Lagoon Elastic connection.
+// WARNING: you have to create an elasticsearch cluster called "elastic" at
+// /admin/config/search/elasticsearch-connector and a search_api server called 
+// "elastic" at /admin/config/search/search-api/add-server to make this work.
+if (getenv('LAGOON')) {
+    $config['elasticsearch_connector.cluster.elastic']['cluster_id'] = 'elastic';
+    $config['elasticsearch_connector.cluster.elastic']['name'] = 'elastic';
+    $config['elasticsearch_connector.cluster.elastic']['status'] = '1';
+    $config['elasticsearch_connector.cluster.elastic']['url'] = 'http://elasticsearch:9200';    
+    $config['search_api.server.elastic']['backend_config']['cluster_settings']['cluster'] = 'elastic';
+    $config['search_api.server.elastic']['name'] = 'Lagoon Elastic - Environment: ' . getenv('LAGOON_PROJECT');
+  }
